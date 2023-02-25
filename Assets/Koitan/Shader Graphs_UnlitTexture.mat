@@ -38,16 +38,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Count: 300
-    - _Divergence: 4
+    - _Count: 1000
+    - _Divergence: 16
     - _HueOffset: 17.87
     - _HueScale: 16
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 0.1
+    - _Scale: 0.1619334
     m_Colors:
-    - _HueIn: {r: 1, g: 0, b: 0, a: 0}
-    - _Offset: {r: 0.384, g: 0.2005, b: 0, a: 0}
+    - _HueIn: {r: 0, g: 0, b: 1, a: 0}
+    - _Offset: {r: 0.32188323, g: 0.03441716, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7668555186785915826
 MonoBehaviour:
