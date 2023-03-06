@@ -12,9 +12,9 @@ public class MandelbrotJobSystem : MonoBehaviour
     private int size = 1024;
 
     [SerializeField] private Material mat;
-    private decimal scale = 1m;
-    private decimal offsetX;
-    private decimal offsetY;
+    private double scale = 1d;
+    private double offsetX;
+    private double offsetY;
     private Color32[] colors;
 
     private Texture2D tex;
@@ -27,6 +27,7 @@ public class MandelbrotJobSystem : MonoBehaviour
     {
         colors = new Color32[size * size];
         tex = new Texture2D(size, size, TextureFormat.ARGB32, false);
+        tex.filterMode = FilterMode.Point;
         CreateTextureByJob(size, out colors);
         tex.SetPixels32(colors);
         tex.Apply();
@@ -49,8 +50,8 @@ public class MandelbrotJobSystem : MonoBehaviour
             if (mousePos != prevPos)
             {
                 //Debug.Log($"mousePos = {mousePos}");
-                offsetX -= (decimal)(mousePos - prevPos).x / scale;
-                offsetY -= (decimal)(mousePos - prevPos).y / scale;
+                offsetX -= (double)(mousePos - prevPos).x / scale;
+                offsetY -= (double)(mousePos - prevPos).y / scale;
                 // 更新
                 CreateTextureByJob(size, out colors);
                 tex.SetPixels32(colors);
@@ -64,7 +65,7 @@ public class MandelbrotJobSystem : MonoBehaviour
         {
             if (Input.mouseScrollDelta.y > 0)
             {
-                scale *= 1.5m;
+                scale *= 1.5d;
                 // 更新
                 CreateTextureByJob(size, out colors);
                 tex.SetPixels32(colors);
@@ -73,7 +74,7 @@ public class MandelbrotJobSystem : MonoBehaviour
             }
             else if (Input.mouseScrollDelta.y < 0)
             {
-                scale /= 1.5m;
+                scale /= 1.5d;
                 // 更新
                 CreateTextureByJob(size, out colors);
                 tex.SetPixels32(colors);
@@ -89,9 +90,9 @@ public class MandelbrotJobSystem : MonoBehaviour
         var job = new TextureJob()
         {
             Size = size,
-            Scale = (decimal)scale,
-            OffsetX = (decimal)offsetX,
-            OffsetY = (decimal)offsetY,
+            Scale = (double)scale,
+            OffsetX = (double)offsetX,
+            OffsetY = (double)offsetY,
             Pixels = new NativeArray<Color32>(size * size, Allocator.TempJob),
         };
         var handle = job.Schedule(size * size, 1);
@@ -107,28 +108,28 @@ public class MandelbrotJobSystem : MonoBehaviour
         [ReadOnly]
         public int Size;
 
-        [ReadOnly] public decimal Scale;
-        [ReadOnly] public decimal OffsetX;
-        [ReadOnly] public decimal OffsetY;
+        [ReadOnly] public double Scale;
+        [ReadOnly] public double OffsetX;
+        [ReadOnly] public double OffsetY;
 
         [WriteOnly]
         public NativeArray<Color32> Pixels;
 
         public void Execute(int index)
         {
-            decimal cx = (index % Size / (decimal)Size - 0.5m) / Scale + OffsetX;
-            decimal cy = (index / Size / (decimal)Size - 0.5m) / Scale + OffsetY;
-            decimal x = cx;
-            decimal y = cy;
-            for (int i = 0; i < 100; i++)
+            double cx = (index % Size / (double)Size - 0.5d) / Scale + OffsetX;
+            double cy = (index / Size / (double)Size - 0.5d) / Scale + OffsetY;
+            double x = cx;
+            double y = cy;
+            for (int i = 0; i < 1000; i++)
             {
-                decimal _x = x * x - y * y + cx;
-                decimal _y = 2 * x * y + cy;
+                double _x = x * x - y * y + cx;
+                double _y = 2 * x * y + cy;
                 x = _x;
                 y = _y;
                 if (x * x + y * y > 16)
                 {
-                    Pixels[index] = Color.HSVToRGB((i / 16f) % 1.0f, 1f, 1f);
+                    Pixels[index] = Color.HSVToRGB((i / 256f) % 1.0f, 1f, 1f);
                     return;
                 }
             }

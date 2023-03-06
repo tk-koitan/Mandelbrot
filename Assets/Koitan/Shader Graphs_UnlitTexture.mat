@@ -44,10 +44,10 @@ Material:
     - _HueScale: 16
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 0.1619334
+    - _Scale: 0.28223646
     m_Colors:
     - _HueIn: {r: 0, g: 0, b: 1, a: 0}
-    - _Offset: {r: 0.32188323, g: 0.03441716, b: 0, a: 0}
+    - _Offset: {r: 0.2500541, g: -0.0000007184225, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7668555186785915826
 MonoBehaviour:
